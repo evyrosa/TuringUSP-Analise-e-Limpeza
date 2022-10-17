@@ -1,0 +1,2331 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "c7f3bde7-ad7b-4410-b9ea-d7c55bd7a99b",
+   "metadata": {},
+   "source": [
+    " # 🎲 ANÁLISE E LIMPEZA DE DADOS - GAMES 🎲\n",
+    " \n",
+    " Por Evelyn Rosa"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0fccabb9-3d5c-4b4a-94a2-840e7e5c3e5b",
+   "metadata": {},
+   "source": [
+    "<h3> Agenda: </h3>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2d9bba12-ca70-4735-9855-9824b4ae9b42",
+   "metadata": {},
+   "source": [
+    "1. Informações gerais sobre o DataFrame;\n",
+    "2. Importando as bibliotecas eo DataFrame;\n",
+    "3. Checando as informações do DataFrame;\n",
+    "4. Visualizando os dados;\n",
+    "5. Limpando os dados;\n",
+    "6. Analisando os dados;\n",
+    "7. Conclusão."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "60f6c49b-3f78-476b-8f68-e3ec80275ab9",
+   "metadata": {},
+   "source": [
+    " <H3> 1. Informações Gerais Sobre o DataFrame </H3>\n",
+    "\n",
+    "O Dataframe possui informações sobre os jogos avaliados na plataforma de games Metric. Os detalhes sobre cada coluna são:"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "88ae45b3-6c3a-4630-a1cb-b5429ad669de",
+   "metadata": {},
+   "source": [
+    "1. name - nome do jogo;\n",
+    "2. platform - plataforma do jogo;\n",
+    "3. developer - desenvolvedora do jogo;\n",
+    "4. publisher - publicadora do jogo;\n",
+    "5. genre(s) - gênero do jogo;\n",
+    "6. players - número de jogadores;\n",
+    "7. rating - avaliação ESRB;\n",
+    "8. attribute - informação adicional do jogo;\n",
+    "9. release_date - data de lançamento do jogo;\n",
+    "10. link - url da página do jogo;\n",
+    "11. critic_positive - número de reviews positivas da crítica;\n",
+    "12. critic_neutral - número de reviews neutras da crítica;\n",
+    "13. critic_negative - número de reviews negativas da crítica;\n",
+    "14. metascore - média do score da crítica;\n",
+    "15. user_positive - número de reviews positivas dos usuários\n",
+    "16. user_neutral - número de reviews neutras dos usuários;\n",
+    "17. user_negative - número de reviews negativas dos usuários;\n",
+    "18. user_score - média do score dos usuários.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f7c9047c-b7ba-4662-83cd-c12dbac14480",
+   "metadata": {},
+   "source": [
+    "<h3>2. Importando as Bibliotecas eo DataFrame</h3>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "594692ed-e6c5-405e-a412-e9d7ac91d879",
+   "metadata": {},
+   "source": [
+    "O primeiro passo em um projeto de Limpeza e Análise de dados é importar as bibliotecas que utilizaremos durante o trabalho."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "55c80b18-de0d-4ecb-88fd-f048dddc1b64",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Bibliotecas\n",
+    "import pandas as pd # para visualizar e printar os dados\n",
+    "import matplotlib.pyplot as plt # para construir e customizar gráficos\n",
+    "import seaborn as sns  # para visualizar gráficos\n",
+    "import numpy as np # para operações matemáticas"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b616cf47-7cda-4fe5-bc81-9df496103d12",
+   "metadata": {},
+   "source": [
+    "Em seguida, é necessário importar o dataset de onde as informações serão extraídas para limpeza e analize."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "586eeb1c-438b-4ef3-b963-99cf162c7e30",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# DataFrame\n",
+    "games = pd.read_csv(\"games.csv\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "24d264ac-6c8a-493a-861a-10f1ce0b919e",
+   "metadata": {},
+   "source": [
+    "<h3>3. Checando as informações do DataFrame</h3>\n",
+    "Analisando as Features"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 88,
+   "id": "a6e6440b-59ab-4952-9da5-38859de2b6b4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 20422 entries, 0 to 20421\n",
+      "Data columns (total 18 columns):\n",
+      " #   Column           Non-Null Count  Dtype  \n",
+      "---  ------           --------------  -----  \n",
+      " 0   name             20422 non-null  object \n",
+      " 1   platform         20422 non-null  object \n",
+      " 2   developer        20363 non-null  object \n",
+      " 3   publisher        20392 non-null  object \n",
+      " 4   genre(s)         20422 non-null  object \n",
+      " 5   players          13193 non-null  object \n",
+      " 6   rating           18138 non-null  object \n",
+      " 7   attribute        324 non-null    object \n",
+      " 8   release_date     20422 non-null  object \n",
+      " 9   link             20422 non-null  object \n",
+      " 10  critic_positive  20422 non-null  int64  \n",
+      " 11  critic_neutral   20422 non-null  int64  \n",
+      " 12  critic_negative  19084 non-null  float64\n",
+      " 13  metascore        20422 non-null  int64  \n",
+      " 14  user_positive    20422 non-null  int64  \n",
+      " 15  user_neutral     20409 non-null  float64\n",
+      " 16  user_negative    20422 non-null  int64  \n",
+      " 17  user_score       20422 non-null  object \n",
+      "dtypes: float64(2), int64(5), object(11)\n",
+      "memory usage: 2.8+ MB\n"
+     ]
+    }
+   ],
+   "source": [
+    "games.info()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fe3a8eff-f511-4e26-8fd0-1cdf341b52c7",
+   "metadata": {},
+   "source": [
+    "- O DataFrame possui 20422 linhas e 18 colunas.\n",
+    "\n",
+    "- Há 20422 entradas mas nem todas as colunas apresentam esse valor, o que significa que existem dados faltantes (quantidade de dados nulos).\n",
+    "\n",
+    "- Existem 11 colunas com dados categóricos (object) e 7 com dados numéricos (int e float)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "07791466-ad64-49ab-a109-e12a031d966a",
+   "metadata": {},
+   "source": [
+    "Como foi observado, existem dados que não estão de acordo com o dataset. Na coluna Plataform e na coluna Genre(s) é possível notar os respectivos dados \" quando vai ser o churrasturing?\" e \"agora eu sou solteira e ninguém vai me segurar\" que não se encaixam nas informações da coluna. \n",
+    "Para que possamos fazer uma boa análise de dados é preciso antes verificar a consistência das informações e remover o que é dispensável. A melhor forma de fazer isso é visualizando e limpando os dados."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c9a282f4-929d-405f-b100-6f61eb7b7e05",
+   "metadata": {},
+   "source": [
+    "   <h3>4. Visualizando os dados </h3>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e5778c99-eb0e-4a5f-bf34-3505d848e695",
+   "metadata": {},
+   "source": [
+    "Para enxergar melhor as informações de cada coluna e assim perceber inconsistencias, basta importar as primeiras linhas para que assim seja possível ter um panorama inicial dos dados:\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 89,
+   "id": "22d1c1ee-05b2-4f9f-b5b4-6b580990670f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>name</th>\n",
+       "      <th>platform</th>\n",
+       "      <th>developer</th>\n",
+       "      <th>publisher</th>\n",
+       "      <th>genre(s)</th>\n",
+       "      <th>players</th>\n",
+       "      <th>rating</th>\n",
+       "      <th>attribute</th>\n",
+       "      <th>release_date</th>\n",
+       "      <th>link</th>\n",
+       "      <th>critic_positive</th>\n",
+       "      <th>critic_neutral</th>\n",
+       "      <th>critic_negative</th>\n",
+       "      <th>metascore</th>\n",
+       "      <th>user_positive</th>\n",
+       "      <th>user_neutral</th>\n",
+       "      <th>user_negative</th>\n",
+       "      <th>user_score</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Command &amp; Conquer</td>\n",
+       "      <td>quando vai ser o churrasturing?</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR...</td>\n",
+       "      <td>1-4</td>\n",
+       "      <td>aceitas pix</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Aug 31, 1995</td>\n",
+       "      <td>/game/pc/command-conquer</td>\n",
+       "      <td>5</td>\n",
+       "      <td>0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>94</td>\n",
+       "      <td>47</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>1</td>\n",
+       "      <td>8.9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Full Throttle</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>LucasArts</td>\n",
+       "      <td>LucasArts</td>\n",
+       "      <td>Adventure</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Apr 30, 1995</td>\n",
+       "      <td>/game/pc/full-throttle</td>\n",
+       "      <td>6</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>86</td>\n",
+       "      <td>18</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>8.7</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Battle Arena Toshinden</td>\n",
+       "      <td>PS</td>\n",
+       "      <td>Tamsoft</td>\n",
+       "      <td>SCEA</td>\n",
+       "      <td>Action</td>\n",
+       "      <td>1-2</td>\n",
+       "      <td>T</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Sep  9, 1995</td>\n",
+       "      <td>/game/playstation/battle-arena-toshinden</td>\n",
+       "      <td>1</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>69</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>5.8</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>Sid Meier's Civilization II</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>MPS Labs</td>\n",
+       "      <td>MicroProse</td>\n",
+       "      <td>Strategy</td>\n",
+       "      <td>1 Player</td>\n",
+       "      <td>K-A</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Feb 29, 1996</td>\n",
+       "      <td>/game/pc/sid-meiers-civilization-ii</td>\n",
+       "      <td>7</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>94</td>\n",
+       "      <td>46</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>8.9</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>Quake</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>id Software</td>\n",
+       "      <td>id Software</td>\n",
+       "      <td>Action</td>\n",
+       "      <td>1-16</td>\n",
+       "      <td>M</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Jun 22, 1996</td>\n",
+       "      <td>/game/pc/quake</td>\n",
+       "      <td>9</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>94</td>\n",
+       "      <td>84</td>\n",
+       "      <td>4.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>8.8</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                          name                         platform    developer  \\\n",
+       "0            Command & Conquer  quando vai ser o churrasturing?          NaN   \n",
+       "1                Full Throttle                               PC    LucasArts   \n",
+       "2       Battle Arena Toshinden                               PS      Tamsoft   \n",
+       "3  Sid Meier's Civilization II                               PC     MPS Labs   \n",
+       "4                        Quake                               PC  id Software   \n",
+       "\n",
+       "     publisher                                           genre(s)   players  \\\n",
+       "0          NaN  AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR...      1-4    \n",
+       "1    LucasArts                                          Adventure       NaN   \n",
+       "2         SCEA                                             Action      1-2    \n",
+       "3   MicroProse                                           Strategy  1 Player   \n",
+       "4  id Software                                             Action     1-16    \n",
+       "\n",
+       "        rating attribute  release_date  \\\n",
+       "0  aceitas pix       NaN  Aug 31, 1995   \n",
+       "1          NaN       NaN  Apr 30, 1995   \n",
+       "2            T       NaN  Sep  9, 1995   \n",
+       "3          K-A       NaN  Feb 29, 1996   \n",
+       "4            M       NaN  Jun 22, 1996   \n",
+       "\n",
+       "                                       link  critic_positive  critic_neutral  \\\n",
+       "0                  /game/pc/command-conquer                5               0   \n",
+       "1                    /game/pc/full-throttle                6               2   \n",
+       "2  /game/playstation/battle-arena-toshinden                1               3   \n",
+       "3       /game/pc/sid-meiers-civilization-ii                7               0   \n",
+       "4                            /game/pc/quake                9               0   \n",
+       "\n",
+       "   critic_negative  metascore  user_positive  user_neutral  user_negative  \\\n",
+       "0              NaN         94             47           NaN              1   \n",
+       "1              0.0         86             18           1.0              0   \n",
+       "2              0.0         69              1           0.0              1   \n",
+       "3              0.0         94             46           0.0              1   \n",
+       "4              0.0         94             84           4.0              1   \n",
+       "\n",
+       "  user_score  \n",
+       "0        8.9  \n",
+       "1        8.7  \n",
+       "2        5.8  \n",
+       "3        8.9  \n",
+       "4        8.8  "
+      ]
+     },
+     "execution_count": 89,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e6000eda-f797-4de2-813d-cd02fd7ae824",
+   "metadata": {},
+   "source": [
+    "Outra boa alternativa para a viasualização de erros é mudar a ordem do dataframe elencando as informações de acordo com a sua popularidade, essa opção ajuda a ver mais rapidamente dados destoantes.\n",
+    "\n",
+    "Usaremos a coluna Genre(s) afim de ordenar as entradas do maior até o menor. Ou seja, do gênero mais popular até o menos popular."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 79,
+   "id": "2d45910f-77ba-494a-8e71-d385d8860c3f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>name</th>\n",
+       "      <th>platform</th>\n",
+       "      <th>developer</th>\n",
+       "      <th>publisher</th>\n",
+       "      <th>genre(s)</th>\n",
+       "      <th>players</th>\n",
+       "      <th>rating</th>\n",
+       "      <th>attribute</th>\n",
+       "      <th>release_date</th>\n",
+       "      <th>link</th>\n",
+       "      <th>critic_positive</th>\n",
+       "      <th>critic_neutral</th>\n",
+       "      <th>critic_negative</th>\n",
+       "      <th>metascore</th>\n",
+       "      <th>user_positive</th>\n",
+       "      <th>user_neutral</th>\n",
+       "      <th>user_negative</th>\n",
+       "      <th>user_score</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>15665</th>\n",
+       "      <td>Arcania: The Complete Tale</td>\n",
+       "      <td>PS4</td>\n",
+       "      <td>Nordic Games Publishing</td>\n",
+       "      <td>Nordic Games Publishing</td>\n",
+       "      <td>Western-Style</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>T</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>May 12, 2015</td>\n",
+       "      <td>/game/playstation-4/arcania-the-complete-tale</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>42</td>\n",
+       "      <td>2</td>\n",
+       "      <td>4.0</td>\n",
+       "      <td>4</td>\n",
+       "      <td>4.8</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>10514</th>\n",
+       "      <td>Combat Mission: Battle for Normandy</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>Battlefront.com</td>\n",
+       "      <td>Battlefront.com</td>\n",
+       "      <td>Wargame</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>May 17, 2011</td>\n",
+       "      <td>/game/pc/combat-mission-battle-for-normandy</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>81</td>\n",
+       "      <td>16</td>\n",
+       "      <td>4.0</td>\n",
+       "      <td>7</td>\n",
+       "      <td>5.4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>12316</th>\n",
+       "      <td>Damage Inc.: Pacific Squadron WWII</td>\n",
+       "      <td>X360</td>\n",
+       "      <td>Mad Catz</td>\n",
+       "      <td>Mad Catz</td>\n",
+       "      <td>WWII</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>T</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Aug 28, 2012</td>\n",
+       "      <td>/game/xbox-360/damage-inc-pacific-squadron-wwii</td>\n",
+       "      <td>1</td>\n",
+       "      <td>12</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>49</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>5.5</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13837</th>\n",
+       "      <td>IL-2 Sturmovik: Battle of Stalingrad</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>1C Game Studios</td>\n",
+       "      <td>Excalibur Publishing Limited</td>\n",
+       "      <td>WWI</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>T</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Aug 14, 2014</td>\n",
+       "      <td>/game/pc/il-2-sturmovik-battle-of-stalingrad</td>\n",
+       "      <td>3</td>\n",
+       "      <td>4</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>74</td>\n",
+       "      <td>85</td>\n",
+       "      <td>23.0</td>\n",
+       "      <td>63</td>\n",
+       "      <td>6.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13992</th>\n",
+       "      <td>The Sims 4</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>Maxis</td>\n",
+       "      <td>Electronic Arts</td>\n",
+       "      <td>Virtual Life</td>\n",
+       "      <td>No Online Multiplayer</td>\n",
+       "      <td>T</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Sep  2, 2014</td>\n",
+       "      <td>/game/pc/the-sims-4</td>\n",
+       "      <td>31</td>\n",
+       "      <td>41</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>70</td>\n",
+       "      <td>189</td>\n",
+       "      <td>146.0</td>\n",
+       "      <td>496</td>\n",
+       "      <td>4.1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13949</th>\n",
+       "      <td>Tropico 5</td>\n",
+       "      <td>X360</td>\n",
+       "      <td>Haemimont, Haemimont Games</td>\n",
+       "      <td>Kalypso</td>\n",
+       "      <td>Tycoon</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>T</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Nov 11, 2014</td>\n",
+       "      <td>/game/xbox-360/tropico-5</td>\n",
+       "      <td>1</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>71</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>7.4</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13000</th>\n",
+       "      <td>Zoo Tycoon</td>\n",
+       "      <td>XONE</td>\n",
+       "      <td>Frontier Developments</td>\n",
+       "      <td>Microsoft Game Studios</td>\n",
+       "      <td>Tycoon</td>\n",
+       "      <td>Up to 4</td>\n",
+       "      <td>E</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Nov 22, 2013</td>\n",
+       "      <td>/game/xbox-one/zoo-tycoon</td>\n",
+       "      <td>12</td>\n",
+       "      <td>32</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>68</td>\n",
+       "      <td>7</td>\n",
+       "      <td>9.0</td>\n",
+       "      <td>10</td>\n",
+       "      <td>3.1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13787</th>\n",
+       "      <td>Tropico 5</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>Haemimont, Haemimont Games</td>\n",
+       "      <td>Kalypso</td>\n",
+       "      <td>Tycoon</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>T</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>May 23, 2014</td>\n",
+       "      <td>/game/pc/tropico-5</td>\n",
+       "      <td>31</td>\n",
+       "      <td>19</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>75</td>\n",
+       "      <td>28</td>\n",
+       "      <td>23.0</td>\n",
+       "      <td>26</td>\n",
+       "      <td>7.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>17122</th>\n",
+       "      <td>RollerCoaster Tycoon World</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>Nvizzio Creations</td>\n",
+       "      <td>Atari</td>\n",
+       "      <td>Tycoon</td>\n",
+       "      <td>No Online Multiplayer</td>\n",
+       "      <td>E</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Nov 16, 2016</td>\n",
+       "      <td>/game/pc/rollercoaster-tycoon-world</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5.0</td>\n",
+       "      <td>43</td>\n",
+       "      <td>4</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>20</td>\n",
+       "      <td>2.1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>14832</th>\n",
+       "      <td>Tropico 5</td>\n",
+       "      <td>PS4</td>\n",
+       "      <td>Haemimont, Haemimont Games</td>\n",
+       "      <td>Kalypso</td>\n",
+       "      <td>Tycoon</td>\n",
+       "      <td>Up to 4</td>\n",
+       "      <td>T</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Apr 28, 2015</td>\n",
+       "      <td>/game/playstation-4/tropico-5</td>\n",
+       "      <td>12</td>\n",
+       "      <td>5</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>76</td>\n",
+       "      <td>11</td>\n",
+       "      <td>7.0</td>\n",
+       "      <td>6</td>\n",
+       "      <td>7.1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>15951</th>\n",
+       "      <td>Atlas Reactor</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>Trion Worlds</td>\n",
+       "      <td>Trion Worlds</td>\n",
+       "      <td>Turn-Based</td>\n",
+       "      <td>Online Multiplayer</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Oct  4, 2016</td>\n",
+       "      <td>/game/pc/atlas-reactor</td>\n",
+       "      <td>11</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>81</td>\n",
+       "      <td>13</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>7.5</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>15450</th>\n",
+       "      <td>Rory McIlroy PGA Tour</td>\n",
+       "      <td>PS4</td>\n",
+       "      <td>EA Tiburon</td>\n",
+       "      <td>EA Sports</td>\n",
+       "      <td>Traditional</td>\n",
+       "      <td>Up to 8</td>\n",
+       "      <td>E</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Jul 14, 2015</td>\n",
+       "      <td>/game/playstation-4/rory-mcilroy-pga-tour</td>\n",
+       "      <td>5</td>\n",
+       "      <td>27</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>61</td>\n",
+       "      <td>4</td>\n",
+       "      <td>12.0</td>\n",
+       "      <td>28</td>\n",
+       "      <td>3.7</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13968</th>\n",
+       "      <td>The Golf Club</td>\n",
+       "      <td>PC</td>\n",
+       "      <td>HB Studios Multimedia</td>\n",
+       "      <td>HB Studios Multimedia</td>\n",
+       "      <td>Traditional</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>E</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Aug 19, 2014</td>\n",
+       "      <td>/game/pc/the-golf-club</td>\n",
+       "      <td>3</td>\n",
+       "      <td>8</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>70</td>\n",
+       "      <td>17</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>15</td>\n",
+       "      <td>6.2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>15474</th>\n",
+       "      <td>Rory McIlroy PGA Tour</td>\n",
+       "      <td>XONE</td>\n",
+       "      <td>EA Tiburon</td>\n",
+       "      <td>EA Sports</td>\n",
+       "      <td>Traditional</td>\n",
+       "      <td>Up to 4</td>\n",
+       "      <td>E</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Jul 14, 2015</td>\n",
+       "      <td>/game/xbox-one/rory-mcilroy-pga-tour</td>\n",
+       "      <td>4</td>\n",
+       "      <td>20</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>60</td>\n",
+       "      <td>9</td>\n",
+       "      <td>4.0</td>\n",
+       "      <td>34</td>\n",
+       "      <td>4.2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>17606</th>\n",
+       "      <td>Everybody's Golf</td>\n",
+       "      <td>PS4</td>\n",
+       "      <td>SCEI, Clap Hanz</td>\n",
+       "      <td>SCEA</td>\n",
+       "      <td>Traditional</td>\n",
+       "      <td>Up to 20</td>\n",
+       "      <td>E</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Aug 29, 2017</td>\n",
+       "      <td>/game/playstation-4/everybodys-golf</td>\n",
+       "      <td>36</td>\n",
+       "      <td>12</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>78</td>\n",
+       "      <td>21</td>\n",
+       "      <td>12.0</td>\n",
+       "      <td>6</td>\n",
+       "      <td>7.7</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                       name platform  \\\n",
+       "15665            Arcania: The Complete Tale      PS4   \n",
+       "10514   Combat Mission: Battle for Normandy       PC   \n",
+       "12316    Damage Inc.: Pacific Squadron WWII     X360   \n",
+       "13837  IL-2 Sturmovik: Battle of Stalingrad       PC   \n",
+       "13992                            The Sims 4       PC   \n",
+       "13949                             Tropico 5     X360   \n",
+       "13000                            Zoo Tycoon     XONE   \n",
+       "13787                             Tropico 5       PC   \n",
+       "17122            RollerCoaster Tycoon World       PC   \n",
+       "14832                             Tropico 5      PS4   \n",
+       "15951                         Atlas Reactor       PC   \n",
+       "15450                 Rory McIlroy PGA Tour      PS4   \n",
+       "13968                         The Golf Club       PC   \n",
+       "15474                 Rory McIlroy PGA Tour     XONE   \n",
+       "17606                      Everybody's Golf      PS4   \n",
+       "\n",
+       "                        developer                     publisher  \\\n",
+       "15665     Nordic Games Publishing       Nordic Games Publishing   \n",
+       "10514             Battlefront.com               Battlefront.com   \n",
+       "12316                    Mad Catz                      Mad Catz   \n",
+       "13837             1C Game Studios  Excalibur Publishing Limited   \n",
+       "13992                       Maxis               Electronic Arts   \n",
+       "13949  Haemimont, Haemimont Games                       Kalypso   \n",
+       "13000       Frontier Developments        Microsoft Game Studios   \n",
+       "13787  Haemimont, Haemimont Games                       Kalypso   \n",
+       "17122           Nvizzio Creations                         Atari   \n",
+       "14832  Haemimont, Haemimont Games                       Kalypso   \n",
+       "15951                Trion Worlds                  Trion Worlds   \n",
+       "15450                  EA Tiburon                     EA Sports   \n",
+       "13968       HB Studios Multimedia         HB Studios Multimedia   \n",
+       "15474                  EA Tiburon                     EA Sports   \n",
+       "17606             SCEI, Clap Hanz                          SCEA   \n",
+       "\n",
+       "            genre(s)                players rating attribute  release_date  \\\n",
+       "15665  Western-Style                    NaN      T       NaN  May 12, 2015   \n",
+       "10514        Wargame                    NaN    NaN       NaN  May 17, 2011   \n",
+       "12316           WWII                    NaN      T       NaN  Aug 28, 2012   \n",
+       "13837            WWI                    NaN      T       NaN  Aug 14, 2014   \n",
+       "13992   Virtual Life  No Online Multiplayer      T       NaN  Sep  2, 2014   \n",
+       "13949         Tycoon                    NaN      T       NaN  Nov 11, 2014   \n",
+       "13000         Tycoon               Up to 4       E       NaN  Nov 22, 2013   \n",
+       "13787         Tycoon                    NaN      T       NaN  May 23, 2014   \n",
+       "17122         Tycoon  No Online Multiplayer      E       NaN  Nov 16, 2016   \n",
+       "14832         Tycoon               Up to 4       T       NaN  Apr 28, 2015   \n",
+       "15951     Turn-Based     Online Multiplayer    NaN       NaN  Oct  4, 2016   \n",
+       "15450    Traditional               Up to 8       E       NaN  Jul 14, 2015   \n",
+       "13968    Traditional                    NaN      E       NaN  Aug 19, 2014   \n",
+       "15474    Traditional               Up to 4       E       NaN  Jul 14, 2015   \n",
+       "17606    Traditional              Up to 20       E       NaN  Aug 29, 2017   \n",
+       "\n",
+       "                                                  link  critic_positive  \\\n",
+       "15665    /game/playstation-4/arcania-the-complete-tale                0   \n",
+       "10514      /game/pc/combat-mission-battle-for-normandy                3   \n",
+       "12316  /game/xbox-360/damage-inc-pacific-squadron-wwii                1   \n",
+       "13837     /game/pc/il-2-sturmovik-battle-of-stalingrad                3   \n",
+       "13992                              /game/pc/the-sims-4               31   \n",
+       "13949                         /game/xbox-360/tropico-5                1   \n",
+       "13000                        /game/xbox-one/zoo-tycoon               12   \n",
+       "13787                               /game/pc/tropico-5               31   \n",
+       "17122              /game/pc/rollercoaster-tycoon-world                0   \n",
+       "14832                    /game/playstation-4/tropico-5               12   \n",
+       "15951                           /game/pc/atlas-reactor               11   \n",
+       "15450        /game/playstation-4/rory-mcilroy-pga-tour                5   \n",
+       "13968                           /game/pc/the-golf-club                3   \n",
+       "15474             /game/xbox-one/rory-mcilroy-pga-tour                4   \n",
+       "17606              /game/playstation-4/everybodys-golf               36   \n",
+       "\n",
+       "       critic_neutral  critic_negative  metascore  user_positive  \\\n",
+       "15665               2              NaN         42              2   \n",
+       "10514               1              0.0         81             16   \n",
+       "12316              12             11.0         49              0   \n",
+       "13837               4              0.0         74             85   \n",
+       "13992              41              2.0         70            189   \n",
+       "13949               3              0.0         71              0   \n",
+       "13000              32              NaN         68              7   \n",
+       "13787              19              1.0         75             28   \n",
+       "17122               2              5.0         43              4   \n",
+       "14832               5              0.0         76             11   \n",
+       "15951               1              0.0         81             13   \n",
+       "15450              27              NaN         61              4   \n",
+       "13968               8              0.0         70             17   \n",
+       "15474              20              2.0         60              9   \n",
+       "17606              12              0.0         78             21   \n",
+       "\n",
+       "       user_neutral  user_negative user_score  \n",
+       "15665           4.0              4        4.8  \n",
+       "10514           4.0              7        5.4  \n",
+       "12316           0.0              1        5.5  \n",
+       "13837          23.0             63        6.0  \n",
+       "13992         146.0            496        4.1  \n",
+       "13949           2.0              1        7.4  \n",
+       "13000           9.0             10        3.1  \n",
+       "13787          23.0             26        7.0  \n",
+       "17122           1.0             20        2.1  \n",
+       "14832           7.0              6        7.1  \n",
+       "15951           1.0              2        7.5  \n",
+       "15450          12.0             28        3.7  \n",
+       "13968           3.0             15        6.2  \n",
+       "15474           4.0             34        4.2  \n",
+       "17606          12.0              6        7.7  "
+      ]
+     },
+     "execution_count": 79,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Mostra na tela os gêneros em ordem decrescente\n",
+    "games.sort_values('genre(s)', ascending=False, inplace=False).head(15) "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8a87d685-b6fb-4ae1-a73a-b2cb25385602",
+   "metadata": {},
+   "source": [
+    "Agora que ordenamos a visualização do dataframe pelos gêneros mais populares, aplicaremos as modificações no dataset original:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 80,
+   "id": "fe9f057c-372b-43db-b184-2733ebc399a0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Altera o dataFrame original\n",
+    "games.sort_values('genre(s)', ascending=True, inplace=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d77bb031-30f8-403d-ae33-88c044bd2e1c",
+   "metadata": {},
+   "source": [
+    "Com essa organização das informações é possível notar que algumas coisas saltam aos olhos. Podemos observar que existe uma diferenciação entre os valores 'Wargame', 'WWI' e 'WWII'. Entretanto, 'WWI' e 'WWII' pertencem a mesma categoria de 'Wargame'."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cda0dba8-47c6-4e5e-871d-64e7552f35fe",
+   "metadata": {},
+   "source": [
+    "<h3> 5.  Limpando os Dados </h3>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0d5344d0-ddd3-40c2-8717-dc37f5cd6d55",
+   "metadata": {},
+   "source": [
+    "<h4> 5.1 Duplicadas </h4>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9d6f5e76-0ec9-4fcb-a092-1137a9ed2712",
+   "metadata": {},
+   "source": [
+    "Um passo importante durante a limpeza de um DataFrame é a remoção de linhas duplicadas"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "9426b3e6-a549-4ad6-8d17-2597459e27c1",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>name</th>\n",
+       "      <th>platform</th>\n",
+       "      <th>developer</th>\n",
+       "      <th>publisher</th>\n",
+       "      <th>genre(s)</th>\n",
+       "      <th>players</th>\n",
+       "      <th>rating</th>\n",
+       "      <th>attribute</th>\n",
+       "      <th>release_date</th>\n",
+       "      <th>link</th>\n",
+       "      <th>critic_positive</th>\n",
+       "      <th>critic_neutral</th>\n",
+       "      <th>critic_negative</th>\n",
+       "      <th>metascore</th>\n",
+       "      <th>user_positive</th>\n",
+       "      <th>user_neutral</th>\n",
+       "      <th>user_negative</th>\n",
+       "      <th>user_score</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>8258</th>\n",
+       "      <td>Bookworm</td>\n",
+       "      <td>DS</td>\n",
+       "      <td>PopCap</td>\n",
+       "      <td>PopCap</td>\n",
+       "      <td>Miscellaneous</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>E</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Nov 30, 2009</td>\n",
+       "      <td>/game/ds/bookworm</td>\n",
+       "      <td>2</td>\n",
+       "      <td>4</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>80</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>tbd</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8260</th>\n",
+       "      <td>Bookworm</td>\n",
+       "      <td>DS</td>\n",
+       "      <td>PopCap</td>\n",
+       "      <td>PopCap</td>\n",
+       "      <td>Miscellaneous</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>E</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Nov 30, 2009</td>\n",
+       "      <td>/game/ds/bookworm</td>\n",
+       "      <td>2</td>\n",
+       "      <td>4</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>71</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>tbd</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "          name platform developer publisher       genre(s) players rating  \\\n",
+       "8258  Bookworm       DS    PopCap    PopCap  Miscellaneous     NaN      E   \n",
+       "8260  Bookworm       DS    PopCap    PopCap  Miscellaneous     NaN      E   \n",
+       "\n",
+       "     attribute  release_date               link  critic_positive  \\\n",
+       "8258       NaN  Nov 30, 2009  /game/ds/bookworm                2   \n",
+       "8260       NaN  Nov 30, 2009  /game/ds/bookworm                2   \n",
+       "\n",
+       "      critic_neutral  critic_negative  metascore  user_positive  user_neutral  \\\n",
+       "8258               4              0.0         80              0           0.0   \n",
+       "8260               4              0.0         71              0           0.0   \n",
+       "\n",
+       "      user_negative user_score  \n",
+       "8258              0        tbd  \n",
+       "8260              0        tbd  "
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games[games.duplicated()]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5727d812-95e0-46f0-b01a-8193b10704de",
+   "metadata": {},
+   "source": [
+    "Após ter certeza sobre quais linhas estão duplicadas, é possível removê-las: "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "f5847ba6-adab-45bd-83d0-992ab05adc33",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "games.drop_duplicates(inplace = True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "21c7a827-5d20-40b5-8393-2c939e0db973",
+   "metadata": {},
+   "source": [
+    "<h4>5.2  Removendo Colunas Desnecessárias </h4>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e862e4e6-218c-4303-ae41-18d03cc74f5f",
+   "metadata": {},
+   "source": [
+    "Existem algumas colunas em nosso dataFrame que possuem informações que não serão tão úteis durante a análise. É o caso da coluna 'link', que contém links para as páginas dos jogos, e da coluna 'attribute', que contém informações adicionais.\n",
+    "A maneira heterogênea como são apresentados e a grande quantidade de dados dados faltantes, sobretudo na coluna 'attribute', impede que façamos agrupamentos e possam ser feitas comparações com as demais colunas."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "419fc5fb-4f1b-4a26-8971-5eb37c1056df",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Removendo as colunas \"link\" e \"attribute\"\n",
+    "games.drop(columns=['link', 'attribute'], inplace=True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "09ae3925-3b05-48c2-b2fc-0e40f612fe14",
+   "metadata": {},
+   "source": [
+    "<h4> 5.2 Limpando as Features </h4>\n",
+    "Limpando Dados Categóricos:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "id": "b9603aca-a8f1-467a-b017-c66b268ddf0a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# limpando a coluna genre(s)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "14dc8a8b-c3bd-4b26-a42c-d24885b22118",
+   "metadata": {},
+   "source": [
+    "Já que observamos erros anteriormente na coluna Genre(s), iniciaremos a limpeza das colunas por ela. Vamos renomear a coluna para 'genre' afim de evitar possíveis erros na hora de ultilizarmos algumas funções."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 87,
+   "id": "92ea1484-39d0-4636-9339-af75a375970d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Renomeando a coluna genre(s)\n",
+    "games.rename(columns={'genre(s)': 'genre'}, inplace = True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "60aee71c-35a3-4b5f-9b92-5789b09698dc",
+   "metadata": {},
+   "source": [
+    "Agora veremos os valores unicos existentes na coluna. Isso é particularmente útil para verificar os diferentes valores em um campo categórico."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 85,
+   "id": "03894102-f00a-403b-91a8-5874807b83e4",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array(['2D', '3D', '4X',\n",
+       "       'AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR, DAQUELE JEEEEITO',\n",
+       "       'Action', 'Action Adventure', 'Action RPG', 'Adventure',\n",
+       "       'Alternative', 'Arcade', \"Beat-'Em-Up\", 'Board Games',\n",
+       "       'Breeding/Constructing', 'Card Battle', 'City Building',\n",
+       "       'Compilation', 'Console-style RPG', 'Dancing', 'Driving',\n",
+       "       'Edutainment', 'Fantasy', 'Fighting', 'First-Person', 'Flight',\n",
+       "       'Formula One', 'Futuristic', 'GT / Street', 'General', 'Historic',\n",
+       "       'Horror', 'Ice Hockey', 'Japanese-Style', 'MOBA',\n",
+       "       'Massively Multiplayer Online', 'Military', 'Miscellaneous',\n",
+       "       'Modern', 'Music', 'Music Maker', 'Olympic Sports', 'Other',\n",
+       "       'PC-style RPG', 'Party', 'Pinball', 'Platformer', 'Puzzle',\n",
+       "       'Racing', 'Rail', 'Rally / Offroad', 'Real-Time', 'Role-Playing',\n",
+       "       'Sci-Fi', 'Scrolling', 'Shooter', 'Sim', 'Simulation', 'Sports',\n",
+       "       'Strategy', 'Street', 'Tactical', 'Third-Person', 'Traditional',\n",
+       "       'Turn-Based', 'Tycoon', 'Virtual Life', 'WWI', 'WWII', 'Wargame',\n",
+       "       'Western-Style'], dtype=object)"
+      ]
+     },
+     "execution_count": 85,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# verificando os valores da coluna genre\n",
+    "games['genre'].unique()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9f8c57f8-a4c2-4d13-bf0a-c2c35919677e",
+   "metadata": {},
+   "source": [
+    " faremos então a substituição dos valores 'WWI' e 'WWII' por 'Wargame':"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 88,
+   "id": "8a8d97d7-ee26-4b89-b1dc-e80a264443fc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Substituir WWI por Wargame:\n",
+    "games[\"genre\"].replace(\"WWI\", \"Wargame\", inplace = True)\n",
+    "\n",
+    "#Substitui WWII por Wargame:\n",
+    "games[\"genre\"].replace(\"WWII\", \"Wargame\", inplace = True)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "097110ed-4109-4c0e-8063-fc6a56610cfb",
+   "metadata": {},
+   "source": [
+    "Há também na coluna, informações como 'AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR, DAQUELE JEEEEITO' e 'Sim' que precisam ser tratadas, seguiremos os seguintes passos:\n",
+    "-   contar as ocorrências de 'AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR, DAQUELE JEEEEITO' na coluna gênero\n",
+    "-  verificar qual a melhor maneira de tratar a informação 'AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR, DAQUELE JEEEEITO'\n",
+    "- Substituir 'Sim' por 'Simulator' para corigir a diferenciação entre os valores e uniformiza-los"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 89,
+   "id": "3c479fc6-c773-4157-b0aa-ee53c77986f3",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "False    20415\n",
+      "True         5\n",
+      "Name: genre, dtype: int64\n"
+     ]
+    }
+   ],
+   "source": [
+    "# contando as ocorrências de \"AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR, DAQUELE JEEEEITO\" na coluna genre\n",
+    "freq_solteira = games[\"genre\"].str.contains('AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR, DAQUELE JEEEEITO').value_counts()\n",
+    "print(freq_solteira)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ba11cee0-ef66-4485-93ab-61b78673f857",
+   "metadata": {},
+   "source": [
+    "Como existe pouca ocorrência (apenas 5) de 'AGORA EU SOU SOULTEIRA E NINGUEM VAI ME SEGURAR, DAQUELE JEEEEITO' optamos por excluir as linhas, de modo que não impactará em nossa análise."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 90,
+   "id": "6c5db097-47b5-4428-8a92-1cc447eb6608",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Excluindo as linhas em que \"AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR, DAQUELE JEEEEITO\" aparece na coluna genre\n",
+    "genre_solteira = games[games['genre'] == 'AGORA EU SOU SOLTEIRA E NINGUEM VAI ME SEGURAR, DAQUELE JEEEEITO'].index\n",
+    "games.drop(genre_solteira, inplace=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 91,
+   "id": "49aa312e-9a17-4c3c-8768-df3cc3d53c74",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Substituindo 'Sim' por 'Simulation'\n",
+    "games[\"genre\"].replace(\"Sim\", \"Simulation\", inplace = True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "23997199-11b7-4e17-a1d8-b358ea3cc9bc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Name"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 93,
+   "id": "c95928bb-1fca-4c62-af04-0b977ab15527",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "name column unique values:\n",
+      "0        Dragon Quest Heroes: The World Tree's Woe and ...\n",
+      "1                                       Super Lucky's Tale\n",
+      "2                                              Rad Rodgers\n",
+      "3                                                 Deadpool\n",
+      "4                      Sengoku Jidai: Shadow of the Shogun\n",
+      "                               ...                        \n",
+      "13241                                        Atlas Reactor\n",
+      "13242                                            Tropico 5\n",
+      "13243                           RollerCoaster Tycoon World\n",
+      "13244                 IL-2 Sturmovik: Battle of Stalingrad\n",
+      "13245                  Combat Mission: Battle for Normandy\n",
+      "Length: 13246, dtype: object\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"name column unique values:\")\n",
+    "print(pd.Series(games.name.unique()), end = \"\\n\\n\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a2897c68-fd7b-49b1-a7b3-8e13e721770f",
+   "metadata": {},
+   "source": [
+    "As informações da coluna 'name' são consistentes, não precisamos fazer alterações."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "1ee97f28-11cf-4a1f-beb9-5982abf63558",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Platform"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "id": "66ae4b5b-5882-43a5-a97f-65a8a5d9123d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "PC                                 4372\n",
+       "X360                               1826\n",
+       "PS4                                1818\n",
+       "PS2                                1528\n",
+       "PS3                                1476\n",
+       "XONE                               1310\n",
+       "pc                                 1060\n",
+       "DS                                  988\n",
+       "WII                                 872\n",
+       "Switch                              812\n",
+       "XBOX                                664\n",
+       "PSP                                 607\n",
+       "GBA                                 597\n",
+       "3DS                                 539\n",
+       "GC                                  512\n",
+       "VITA                                408\n",
+       "WIIU                                319\n",
+       "PS                                  256\n",
+       "xBoX                                173\n",
+       "DC                                  143\n",
+       "N64                                  89\n",
+       "quando vai ser o churrasturing?      48\n",
+       "Name: platform, dtype: int64"
+      ]
+     },
+     "execution_count": 55,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Verificando a ocorrência dos valores na coluna platform\n",
+    "games[\"platform\"].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "755fc032-ec94-41dc-8fba-46ea110a72a5",
+   "metadata": {},
+   "source": [
+    " Há 48 linhas em que'quando vai ser o churrasturing' aparece no dataFrame. Como não se encaixam na coluna, e são poucas as ocorrências, decidimos substitui-las pela moda.\n",
+    "Além disso, há outras informações que precisam ser reparadas, é possível notar que há uma diferenciação entre os valores 'xBOX' e 'XBOX' e também 'pc'e 'PC' que rementem à mesma informação.\n",
+    "\n",
+    "Substituiremos para uniformizar os dados:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 92,
+   "id": "03d3f223-5b30-45cb-9988-395683773910",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Substituindo 'quando vai ser o churrasturing' pela moda\n",
+    "games['platform'].replace('quando vai ser o churrasturing?', games['platform'].mode()[0], inplace=True)\n",
+    "\n",
+    "# Substituindo 'xBOX' por 'XBOX'\n",
+    "games[\"platform\"].replace(\"xBOX\", \"XBOX\", inplace = True)\n",
+    "\n",
+    "# Substituindo 'pc' por 'PC'\n",
+    "games[\"platform\"].replace(\"pc\", \"PC\", inplace = True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "42ee3836-71f8-4507-b401-1f3c22e932fb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Developer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 66,
+   "id": "09d3174d-18bf-40de-b000-48c5e71d690a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "developer column unique values:\n",
+      "0                         NaN\n",
+      "1                   LucasArts\n",
+      "2                     Tamsoft\n",
+      "3                    MPS Labs\n",
+      "4                 id Software\n",
+      "                ...          \n",
+      "4737                     MMEU\n",
+      "4738     Reversed Interactive\n",
+      "4739            Deeli network\n",
+      "4740              Undercoders\n",
+      "4741    Snap Finger Click Ltd\n",
+      "Length: 4742, dtype: object\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Verificando os valores existentes na coluna developer\n",
+    "print(\"developer column unique values:\")\n",
+    "print(pd.Series(games.developer.unique()), end = \"\\n\\n\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a8c0c866-6aaa-4629-903c-69cde8c7d272",
+   "metadata": {},
+   "source": [
+    "Não verificamos nenhuma informação incorreta na coluna 'developer'. Entretanto, há dados faltantes que corrigiremos posteriormente."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "f181fd17-54d1-4390-96e8-310b85f9ed4d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Publisher"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 75,
+   "id": "4c3af594-b54d-4d3d-bb3b-66c4a7ae4edb",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      " column publisher unique values:\n",
+      "0                     LucasArts\n",
+      "1                          SCEA\n",
+      "2                    MicroProse\n",
+      "3                   id Software\n",
+      "4        Blizzard Entertainment\n",
+      "                 ...           \n",
+      "2223                Lion Castle\n",
+      "2224    OtherSide Entertainment\n",
+      "2225              Deeli network\n",
+      "2226                Undercoders\n",
+      "2227      Snap Finger Click Ltd\n",
+      "Length: 2228, dtype: object\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Verificando os valores existentes na coluna publisher\n",
+    "print(\" column publisher unique values:\")\n",
+    "print(pd.Series(games.publisher.unique()), end = \"\\n\\n\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "35d6f1ea-86a0-4625-9cb5-f863ccbbc0f2",
+   "metadata": {},
+   "source": [
+    "No caso da coluna 'publisher' também há dezenas de dados faltantes que substituiremos posteriormente. Não há nenhuma informação inconsistente. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "ac3f8cc9-8872-40c6-bc9c-c8ca232c5edd",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Players"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 93,
+   "id": "184d405c-dfab-43bc-9973-8a2f46563956",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "No Online Multiplayer    3884\n",
+       "1 Player                 2590\n",
+       "1-2                      1488\n",
+       "1-4                      1169\n",
+       "2  Online                 420\n",
+       "Up to 4                   388\n",
+       "4  Online                 364\n",
+       "Online Multiplayer        331\n",
+       "1-8                       330\n",
+       "2                         303\n",
+       "8  Online                 262\n",
+       "Up to 8                   235\n",
+       "Massively Multiplayer     146\n",
+       "16  Online                136\n",
+       "Up to 6                   108\n",
+       "1-16                       99\n",
+       "Up to 16                   89\n",
+       "Up to 12                   89\n",
+       "6  Online                  86\n",
+       "1-6                        73\n",
+       "Up to 10                   65\n",
+       "1-32                       50\n",
+       "32  Online                 47\n",
+       "10  Online                 42\n",
+       "12  Online                 41\n",
+       "1-3                        33\n",
+       "24  Online                 32\n",
+       "Up to 18                   28\n",
+       "Up to 22                   24\n",
+       "1-5                        23\n",
+       "1-12                       18\n",
+       "Up to 64                   18\n",
+       "Up to 24                   18\n",
+       "Up to 3                    17\n",
+       "1-10                       15\n",
+       "Up to 32                   15\n",
+       "Up to 20                   14\n",
+       "14  Online                 13\n",
+       "Up to 5                    13\n",
+       "Up to 40                   12\n",
+       "5  Online                   8\n",
+       "1-64                        8\n",
+       "Up to more than 64          8\n",
+       "64  Online                  8\n",
+       "3  Online                   6\n",
+       "44  Online                  5\n",
+       "64+  Online                 5\n",
+       "Up to 30                    4\n",
+       "Up to 9                     2\n",
+       "Up to 60                    2\n",
+       "64+                         2\n",
+       "Up to 14                    2\n",
+       "1-24                        1\n",
+       "Name: players, dtype: int64"
+      ]
+     },
+     "execution_count": 93,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Verificando os valores existentes na coluna players\n",
+    "games[\"players\"].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "782de131-7e52-450e-9093-2e8175242e64",
+   "metadata": {},
+   "source": [
+    "Verificamos que há alguns problemas na padronização dos dados da coluna \"Player\", os quais apresentam informações semelhantes, ora em números, ora em caracteres alfanuméricos. Portanto, iremos padronizar os dados dessa coluna, além de remover os espaços em branco adicionais."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 94,
+   "id": "30d0fc33-0541-41f0-b0d6-c7ad21f7192a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Padrozinando as informações da coluna players\n",
+    "games[\"players\"] = games[\"players\"].str.strip()\n",
+    "games[\"players\"].replace({\"1-4\":\"Up to 4\", \"1-2\":\"Up to 2\", \"1-16\":\"Up to 16\", \"1-6\":\"Up to 6\", \"1-8\": \"Up to 8\", \"1-5\": \"Up to 5\", \"1-32\":\"Up to 32\", \"1-10\":\"Up to 10\",\"1-3\":\"Up to 3\", \"1-12\": \"Up to 12\", \"1-64\":\"Up to 64\", \"1-24\": \"Up to 24\"}, inplace=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "b6969a93-f2fe-4a88-8ee7-bbdee15cf72e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Rating"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 71,
+   "id": "42ddcd74-b1ab-4d06-88a8-93533ac5d952",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "rating column unique values:\n",
+      "0    aceitas pix\n",
+      "1            NaN\n",
+      "2              T\n",
+      "3            K-A\n",
+      "4              M\n",
+      "5              E\n",
+      "6           E10+\n",
+      "7             AO\n",
+      "8             EC\n",
+      "9             RP\n",
+      "dtype: object\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Verificando os valores existentes na coluna rating\n",
+    "print(\"rating column unique values:\")\n",
+    "print(pd.Series(games.rating.unique()), end = \"\\n\\n\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d751ee27-b25a-4ce7-8093-b5656db07a15",
+   "metadata": {},
+   "source": [
+    "É possível notar o valor 'aceitas pix' que não se encaixa na coluna rating. Vamos verificar sua ocorrência:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 95,
+   "id": "e44564cf-4180-49db-af4f-1f9c537a220b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "False    18094\n",
+      "True        37\n",
+      "Name: rating, dtype: int64\n"
+     ]
+    }
+   ],
+   "source": [
+    "freq_pix = games['rating'].str.contains('aceitas pix').value_counts()\n",
+    "print(freq_pix)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "289ada35-152c-4ef7-8be5-9a5ee352c8f4",
+   "metadata": {},
+   "source": [
+    "Como existe pouca ocorrência (apenas 37) de 'aceitas pix' optamos por excluir as linhas, de modo que não impactará em nossa análise."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 96,
+   "id": "027b79b2-f7e9-4f50-bab6-cfc6106fd0ec",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Excluindo as linhas em que \"aceitas pix\" aparece na coluna rating\n",
+    "rating_pix = games[games['rating'] == 'aceitas pix'].index\n",
+    "games.drop(rating_pix, inplace=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "id": "11ade709-9e55-44c3-b79d-a5f723952f85",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Release_date"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "id": "41e48dbb-1d84-406a-9555-6c500c8b5ad1",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "release_date column unique values:\n",
+      "0       Aug 31, 1995\n",
+      "1       Apr 30, 1995\n",
+      "2       Sep  9, 1995\n",
+      "3       Feb 29, 1996\n",
+      "4       Jun 22, 1996\n",
+      "            ...     \n",
+      "4318    Apr  9, 2018\n",
+      "4319    Nov 23, 2018\n",
+      "4320    Oct  4, 2018\n",
+      "4321    Nov 14, 2018\n",
+      "4322    Sep  3, 2018\n",
+      "Length: 4323, dtype: object\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"release_date column unique values:\")\n",
+    "print(pd.Series(games.release_date.unique()), end = \"\\n\\n\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "71d8b681-886d-473c-b6ca-1d0eaac151c5",
+   "metadata": {},
+   "source": [
+    "Pensando em uma análise de dados ao longo dos anos, decidiamos manter apenas as informações referentes ao ano de lançamento dos jogos."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 106,
+   "id": "b5469721-d75d-458b-a3c2-b1ef679ccfc6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# transformaando os dados da coluna 'release_date' em objetos do tipo datetime\n",
+    "games['release_date'] =  pd.to_datetime(games['release_date'], infer_datetime_format=True)\n",
+    "\n",
+    "# convertendo a data completa em ano\n",
+    "games['release_date'] = pd.DatetimeIndex(games['release_date']).year"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ac3e00c1-0b35-4ef8-adde-86389e8bbacc",
+   "metadata": {},
+   "source": [
+    "<h4>Limpando Dados Numéricos:</h4>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "6608e9bd-e547-4f46-984c-8c02911d368e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Critic_positive"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 64,
+   "id": "a792ced0-c0ed-4fa7-87f0-d0ad90c1c307",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([  5,   6,   1,   7,   9,  12,  13,   8,   3,  11,   2,  21,  20,\n",
+       "        15,  10,   4,   0,  22,  24,  16,  19,  18,  14,  17,  30,  27,\n",
+       "        34,  25,  37,  32,  28,  33,  29,  26,  23,  56,  68,  42,  53,\n",
+       "        50,  59,  35,  43,  38,  31,  70,  62,  36,  46,  40,  60,  41,\n",
+       "        39,  80,  72,  45,  51,  44,  49,  55,  81,  79,  89,  76,  52,\n",
+       "        74,  48,  58,  63,  65,  86,  61,  77,  64,  54,  47,  82,  69,\n",
+       "        66,  57,  73,  88,  90,  67,  85,  83,  78,  93, 105, 100,  75,\n",
+       "        71,  84,  87,  98,  96, 101,  92,  99,  94,  97, 111, 106, 113,\n",
+       "       110, 118], dtype=int64)"
+      ]
+     },
+     "execution_count": 64,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games['critic_positive'].unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "5b5500f0-9320-4198-8bf9-d3f67ccdf5c6",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0      3070\n",
+       "1      2202\n",
+       "2      1785\n",
+       "3      1490\n",
+       "4      1276\n",
+       "       ... \n",
+       "92        1\n",
+       "111       1\n",
+       "106       1\n",
+       "113       1\n",
+       "118       1\n",
+       "Name: critic_positive, Length: 106, dtype: int64"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games[\"critic_positive\"].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "2258be4e-7653-442a-a1b8-3ef312a0ee5d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a  Coluna Critic_neutral"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 66,
+   "id": "83bc445e-55ae-44e1-a0b2-3a5083920540",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([ 0,  2,  3,  1,  4,  6,  5,  8,  7, 11,  9, 12, 14, 13, 10, 15, 17,\n",
+       "       16, 18, 23, 20, 21, 19, 24, 22, 25, 28, 30, 27, 38, 33, 31, 26, 29,\n",
+       "       37, 32, 34, 35, 36, 40, 46, 41, 53, 43, 39, 49, 50, 45, 51, 54, 48,\n",
+       "       44, 58, 42, 47, 60, 55], dtype=int64)"
+      ]
+     },
+     "execution_count": 66,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games['critic_neutral'].unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "b130dbdb-0703-41c1-9244-cb9c3ecea767",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Critic_negative"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 69,
+   "id": "b11c5877-4a8c-44d3-a9d9-1f5e0b259edd",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([nan,  0.,  1.,  4.,  2.,  3.,  5.,  9.,  7.,  8., 10.,  6., 15.,\n",
+       "       11., 14., 12., 21., 13., 18., 16., 23., 19., 17., 20., 22., 25.,\n",
+       "       36., 26., 33., 30., 31., 27., 24., 38., 34., 32., 39., 51., 28.,\n",
+       "       43.])"
+      ]
+     },
+     "execution_count": 69,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games['critic_negative'].unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "6b134dae-48dd-434b-869f-c546e5188fc5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna Metascore"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 71,
+   "id": "e021ef8d-0a72-4a5e-bbc8-27072c096d8e",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([94, 86, 69, 93, 92, 91, 90, 89, 85, 84, 83, 80, 79, 77, 74, 70, 59,\n",
+       "       53, 96, 88, 82, 73, 72, 71, 56, 99, 87, 81, 78, 76, 75, 67, 65, 61,\n",
+       "       58, 98, 66, 60, 49, 43, 97, 95, 68, 64, 63, 62, 57, 55, 54, 52, 51,\n",
+       "       50, 48, 47, 46, 44, 42, 41, 40, 39, 38, 37, 35, 34, 32, 30, 29, 28,\n",
+       "       27, 26, 25, 24, 45, 36, 33, 31, 22, 19, 23, 18,  8, 16, 12, 21, 20,\n",
+       "       17, 11, 13, 14, 15], dtype=int64)"
+      ]
+     },
+     "execution_count": 71,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games['metascore'].unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "40a491b0-a045-4c38-a5e1-0fc1fcf6d5cc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna User_positive"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 73,
+   "id": "a6b93b0f-e0af-4c7e-a44e-53f4d470b172",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([  47,   18,    1,   46,   84,  220,    4,   15,   31,   52,   25,\n",
+       "         39,    5,    8,    0,    2,    6,    3,   10,  122,  106,  365,\n",
+       "         13,   19,  111,   37,   45,   38,   20,   23,   61,    9,   11,\n",
+       "        918,   48,  502,   17,  205,   71,   93,   43,   55,  107,   79,\n",
+       "        134,   12,  121,   14,   63,   42,   28,   65,   16,   40,   97,\n",
+       "         92,   58,  141,  131,   21,   68,   41,    7,   80,   33,  210,\n",
+       "        202,  168,   81,   30,   44,   22,   72,  242,   26,   29,  512,\n",
+       "        117,   27,   49,  112,   24,   91,   50,  195,  419,  249,  105,\n",
+       "        116,   36,   87,  234,  232,  118,   78,   73,   85,   35,  133,\n",
+       "        136,   88,   56,   67,  267,  198,   83,   51,   59,  123,  135,\n",
+       "         34,  203,   32,  171,  124,  289,  109,   57,  143,  254,  110,\n",
+       "         70,   66,   60,   76,  104,   74,   53,  149,  207, 1758,  442,\n",
+       "        382,  297,   69,  169,   90,  206,  139, 1257,  157,  103,   86,\n",
+       "         54,  151,   64,  359,  237,  209,  230,  159,  160,   77,   75,\n",
+       "        126,  317,  302,   62,  377,  373,  294,  367,  233,  170,  128,\n",
+       "        431,  115,  415,  137,  244,  608,  494,  229,  550,  196,  295,\n",
+       "        669,  375, 1191,  102,  341,  809,  307,  127,  385,  182,   94,\n",
+       "        400,  630,  351,  130,  684,  480,  120,  316,  224,  100,  475,\n",
+       "        153,  212,  165,  428,  308,  101,  183,  177,  186,  180,  114,\n",
+       "        217,  221,   99,  142,  881,  184,  258,  872,  215,  216,  194,\n",
+       "        219,  518,  193,  125,  331,  313,  192,  119,  113,  335,   89,\n",
+       "        167,  218,  108,  372,  510,  329,  561,  260,  154,  273,  281,\n",
+       "        256,  309,  516,  201,  223,  191,  152,  420, 1054, 1713,  253,\n",
+       "        208,  342, 1630,  299,  172,  632,  463,  833,  132,  243,  338,\n",
+       "        162,  259,  527,  189,  291, 1069,  158,  179,  369, 1306,  708,\n",
+       "       1162,  305,  465,  647,  594,  505,  214,  364,   96,   82,  197,\n",
+       "         98,  174,  222,  240,  675,  185,  323,  481,  176,  649,  339,\n",
+       "        411,  652,  163,  476,  424, 1181,  668,  146,  173,  378,  269,\n",
+       "        145,  274,  188,  425,  138,  147,  178,  566, 1641,  304, 1117,\n",
+       "        333,  255, 1788,  293,  225,  248,  556,   95,  204,  213,  278,\n",
+       "        368,  344,  144,  268,  282,  129,  150,  438,  155,  393, 1065,\n",
+       "        413,  301,  386,  156,  517,  187,  514,  251,  275,  401,  330,\n",
+       "        257,  525,  506,  775,  246,  211,  200,  437, 1377,  618, 1368,\n",
+       "       1180,  789,  161,  490,  686,  445,  227,  140,  666,  350,  361,\n",
+       "        181,  276,  531, 1600,  529,  226,  363,  270,  423,  284,  589,\n",
+       "       3029, 1068,  391,  238,  703, 1271,  166,  310,  402,  357,  286,\n",
+       "        443,  239,  403, 1753, 2760,  624,  939,  245,  671,  300,  602],\n",
+       "      dtype=int64)"
+      ]
+     },
+     "execution_count": 73,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games['user_positive'].unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "id": "ce220933-c58f-45fa-bd9d-a9846b70251e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna User_neutral"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 74,
+   "id": "dc271aca-b762-457a-b499-80701d1832d1",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([ nan,   1.,   0.,   4.,   8.,  14.,   2.,   7.,   3.,  11.,  34.,\n",
+       "         9.,   5.,  12.,  42.,  32.,  10.,  18.,   6.,  15.,  17.,  23.,\n",
+       "        13.,  16.,  48.,  31.,  19.,  24.,  20.,  22.,  40.,  21.,  27.,\n",
+       "       140.,  86.,  81.,  84.,  82.,  28.,  29.,  30.,  26.,  25.,  50.,\n",
+       "        38.,  62.,  79.,  87.,  35.,  63., 103.,  45.,  36.,  41.,  39.,\n",
+       "        37.,  52.,  46.,  54., 135., 215.,  43.,  77., 110., 113.,  83.,\n",
+       "        97.,  44., 142., 178.,  51.,  71.,  70., 130.,  89.,  76.,  66.,\n",
+       "        58., 139., 126.,  55.,  33.,  64.,  95., 207.,  93., 188.,  78.,\n",
+       "       164.,  67., 150., 100., 146., 120., 132.,  47.,  57.,  72.,  90.,\n",
+       "        75., 101.,  68.,  73.,  53., 108., 324.,  88., 105., 112., 192.,\n",
+       "        59., 464.,  65., 260., 131., 216., 111., 293.,  98., 149., 143.,\n",
+       "       170.,  60.,  61., 200., 134., 121., 336., 118.,  49., 507., 196.,\n",
+       "       124., 106., 204., 127.,  85.,  69.,  56., 141., 303., 122., 171.,\n",
+       "       123.,  99., 173., 222., 184., 153.,  80.,  92.,  96., 179., 297.,\n",
+       "        91., 114., 238., 133., 176., 498.,  94., 154., 158., 137., 180.,\n",
+       "       442., 148.,  74., 225., 152., 223., 236., 212., 271., 129., 202.,\n",
+       "       328., 128., 107.])"
+      ]
+     },
+     "execution_count": 74,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games['user_neutral'].unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "e6d1e202-4073-4a1d-a813-0cdfe7a4bc97",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna User_negative"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 76,
+   "id": "4db162f6-b65c-4fbe-a2fc-597b78afc032",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([   1,    0,    7,   10,    3,    6,    2,    4,   15,    5,   37,\n",
+       "         13,   12,   11,    8,   14,    9,   18,   23,   38,   26,   25,\n",
+       "         16,   31,   21,   27,   46,   17,   22,  251,  110,   53,  144,\n",
+       "         29,   96,   55,   35,   20,   42,   28,   34,   24,   33,  622,\n",
+       "        621,   83,   48,   47,   67,   62,   78,   58,   41,  106,   73,\n",
+       "         39,   30,   19,  133,   54,   87,  184,   64,   61,   97,   80,\n",
+       "         76,  101,  194,   32,  192,  371,   44,   36,  149,  202,   66,\n",
+       "        317,  832,   68,   56,   45,   51,  379,   81,  130,   91,  139,\n",
+       "        103,   43,   52,  125,   57,  154,  295,   50,   89,  147,  104,\n",
+       "        452,  479,  270, 2546, 1275,   77,  120,  490,  117, 1021,  204,\n",
+       "         82,  347,  320,  465, 1179,   65,   40,   79,   60,   84,   98,\n",
+       "        123,  119,   69,  523,  141,  155,   88, 1037,   86, 3001,  166,\n",
+       "        138,   71,  390,  169,  226,  145,  146,  240,   49,   59,  171,\n",
+       "       1304,  150, 1675,   90,  341,   99,  450,   74, 1083, 1209,   70,\n",
+       "        108, 1186,  100,  473,  128,   72,  718,  291,   75, 1721,   95,\n",
+       "        175,  471,   92,  113,  260,  134,  135,  648,  124,  163,  248,\n",
+       "        294,  152,  421,  554,  205,   63,   94,  331,  496,  210,  259,\n",
+       "        122,  214,  127,  207, 1123,   93,  156,  242,  136,  181,  339,\n",
+       "        377,  107,  362,  429,  158,  233,  129,  296,  174,  102,  111,\n",
+       "        570,  126,  160,  424,  112,  172,  191,  274,  203,  186,  200,\n",
+       "        516,  440, 2049,  165,  131,  153,  273,  193,  289,  545,  161,\n",
+       "        282,  380,  444,  277,  105,  178,  998, 1541,  267], dtype=int64)"
+      ]
+     },
+     "execution_count": 76,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "games['user_negative'].unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "963435a4-3591-4a80-8cb5-18fa8b321840",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Limpando a Coluna User_score"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "fd7e6525-7b80-445e-9e90-e593b5a4205a",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array(['7.6', '6.8', '7.2', '5.9', '7.4', '5.7', '6.5', '8.4', '8.9',\n",
+       "       '7.5', '7.3', '7.1', '4.8', '7.7', '8.1', '5.8', '8.5', '8.0',\n",
+       "       '7.8', '8.3', '6.9', '3.4', '3.2', '8.2', '6.0', '6.7', '7.9',\n",
+       "       '6.3', '5.6', 'tbd', '6.6', '8.6', '5.0', '6.4', '3.3', '3.8',\n",
+       "       '5.1', '4.4', '6.2', '7.0', '4.3', '4.1', '2.4', '2.1', '2.6',\n",
+       "       '4.6', '9.0', '8.7', '3.6', '3.7', '3.0', '4.0', '5.4', '1.7',\n",
+       "       '6.1', '1.9', '4.5', '2.0', '4.9', '5.5', '5.3', '5.2', '2.8',\n",
+       "       '8.8', '9.2', '9.1', '2.5', '4.2', '3.9', '3.5', '1.4', '4.7',\n",
+       "       '2.3', '1.8', '1.3', '1.2', '2.7', '2.2', '2.9', '1.5', '3.1',\n",
+       "       '1.1', '1.6', '0.4', '0.5', '1.0', '9.4', '0.8', '0.7', '9.3',\n",
+       "       '0.1'], dtype=object)"
+      ]
+     },
+     "execution_count": 34,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#Verificando os valores únicos da coluna\n",
+    "games[\"user_score\"].unique()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "250db841-31ca-46fb-b8bc-36b880800d9f",
+   "metadata": {},
+   "source": [
+    "<h4> 5.3 Inconsistências </h4>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "69a1ff9e-498e-4ceb-a844-fc26fa73a307",
+   "metadata": {},
+   "source": [
+    "Vamos então utilizar o `np.nan` para declarar valores faltantes nos dados, de modo que substituiremos  informações numéricas que não fazem sentido por NaN que significa \"Not a Number\".Ele permite decodificar um valor faltante mas ainda assim ser lido como um numeral, pois é definido como float."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d644bc58-644c-486e-999d-f2d14b548c4c",
+   "metadata": {},
+   "source": [
+    "O valor 'tbd' não faz sentido para a nossa análise considerando que a coluna User_score recebe apenas valores referentes a média do score dos usuários. Vamos então utilizar o `np.nan` para declarar valores faltantes nos dados, substituindo 'tbd' por NaN, em seguida, ajustaremos o datatype de 'objet' para 'int'."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "0c34cd80-5d19-4765-b1fb-623aa6f25549",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Substituir 'tbd' por 'NaN'\n",
+    "games  = games.replace(['tbd'], np.nan)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5ddf8073-dd4a-46d8-a5a0-fbcb6cf0db70",
+   "metadata": {},
+   "source": [
+    "<h4> 5.4 Ajustando os Datatypes </h4> "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1308338e-f4c5-465d-936e-cd52d2c1000c",
+   "metadata": {},
+   "source": [
+    "Pode occorrer de algumas colunas estarem armazenando a informação com o tipo de variavél incorreta.Por exemplo, uma coluna com dados numéricos deve ser armazenada como int ou float, e não como object, que é como o pandas guarda strings, ou seja, valores de texto.\n",
+    "Para verificar os tipos de variáveis, basta utilizar a função `.info()`"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9eda849e-69ea-45b7-8100-0f0c944fad8c",
+   "metadata": {},
+   "source": [
+    "mudaremos então o datatype da coluna user_score de 'objetc' para 'float':"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "73473c1b-2ebb-4d91-9728-862bbc11db2f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Substituindo o datatype da coluna user_score\n",
+    "games[\"user_score\"] = games[\"user_score\"].astype(\"float\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "53c170f6-4107-4573-a2e0-738ba75ab229",
+   "metadata": {},
+   "source": [
+    "<h4>5.5 Dados faltantes</h4>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b0ee481c-e94e-4001-8042-94f57b7865be",
+   "metadata": {},
+   "source": [
+    "Não existe uma maneira específica mais correta de preencher dados faltantes em um dataFrame, em todas as altervativas há ganhos e recusas.\n",
+    "Durante a limpeza nós optamos por fazer algumas substituições, nos dados numéricos utilizamos o NaN e nos categóricos trocamos insconsistências pela moda, que representa o resultado que mais se repete em determinado conjunto de dados.\n",
+    "Agora, passaremos um \"pente fino\" para verificar quais colunas ainda nao foram preenchedias e escolheremos qual a melhor maneira de completá-las. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "1ea590df-34ac-4c05-93a5-06360d245fe0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "players            7227\n",
+       "rating             2284\n",
+       "critic_negative    1338\n",
+       "developer            59\n",
+       "publisher            30\n",
+       "user_neutral         13\n",
+       "name                  0\n",
+       "platform              0\n",
+       "genre(s)              0\n",
+       "release_date          0\n",
+       "critic_positive       0\n",
+       "critic_neutral        0\n",
+       "metascore             0\n",
+       "user_positive         0\n",
+       "user_negative         0\n",
+       "user_score            0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Verificando as colunas com mais valores ausentes\n",
+    "games.isnull().sum().sort_values(ascending=False) [:18]"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.12"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
