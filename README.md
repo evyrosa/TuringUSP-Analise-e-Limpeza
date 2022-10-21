@@ -23,9 +23,7 @@ O Grupo Turing decidiu fazer um estudo em cima de dados sobre as avaliações de
 
  A sua intenção é ajudar os membros a conhecerem novos jogos, para, quem sabe, fazer noites de jogos dentro do grupo afim de promover maior integração entre os membros. 
 
- ![Stray Game](https://media.tenor.com/uSkbTmappbcAAAAd/stray-stray-game.gif) 
-
-
+ ![Stray Game](/imagens/stray-game.gif) 
 
 ## Especificações
 Durante o projeto foram ultizadas as seguintes ferramentas:
